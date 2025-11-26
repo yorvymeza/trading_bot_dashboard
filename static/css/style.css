@@ -1,0 +1,54 @@
+/*
+ * Archivo: style.css
+ * Descripción: Estilos CSS personalizados para el Dashboard del Trading Bot.
+ *
+ * NOTA: La mayoría de los estilos se gestionan con Tailwind CSS (vía CDN en los HTML).
+ * Usa este archivo para ajustes específicos o estilos que requieran animaciones o media queries complejas.
+ */
+
+/* 1. Estilo para la barra de desplazamiento (Scrollbar) */
+/* Hace que la barra de desplazamiento sea más oscura y discreta, acorde al tema. */
+::-webkit-scrollbar {
+    width: 8px; /* Ancho de la barra de desplazamiento vertical */
+    height: 8px; /* Altura de la barra de desplazamiento horizontal */
+}
+
+::-webkit-scrollbar-track {
+    background: #1f2937; /* bg-gray-800 */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4b5563; /* bg-gray-600 */
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6b7280; /* bg-gray-500 */
+}
+
+/* 2. Clase de utilidad personalizada para un foco de botón */
+/* Útil si necesitas un efecto de foco diferente al predeterminado de Tailwind. */
+.custom-focus-ring:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.5); /* green-500 con transparencia */
+}
+
+/* 3. Animación simple (opcional) */
+/* Ejemplo de cómo hacer parpadear el indicador de estado si está activo */
+@keyframes pulse-once {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.animate-pulse-once {
+    animation: pulse-once 1.5s ease-in-out infinite;
+}
+
+/* 4. Asegúrate de que todas las páginas HTML lo enlacen */
+/*
+   En tus archivos HTML, debes incluir este enlace
+   dentro de la etiqueta <head>:
+
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+*/

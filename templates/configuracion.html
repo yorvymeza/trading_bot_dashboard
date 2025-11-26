@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exnova Trading Bot - Configuración</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-gray-200 font-sans p-6">
+
+    <div class="max-w-7xl mx-auto space-y-6">
+
+        <header class="flex justify-between items-center pb-4 border-b border-gray-700">
+            <div>
+                <h1 class="text-2xl font-semibold text-white">Configuración del Bot</h1>
+                <p class="text-gray-400 text-sm">Ajusta la estrategia de trading y los parámetros de riesgo.</p>
+            </div>
+            <div class="flex items-center space-x-2 text-sm text-gray-400">
+                <span class="inline-block w-2.5 h-2.5 bg-green-500 rounded-full shadow-md shadow-green-500/50"></span>
+                <span>Bot Activo</span>
+            </div>
+        </header>
+
+        <div class="flex bg-gray-800 p-1 rounded-lg">
+            <a href="/" class="flex-1 py-2 px-4 rounded-lg text-sm font-medium text-center
+                {% if request.path == '/' %}bg-green-500 text-white shadow-lg shadow-green-500/30{% else %}text-gray-400 hover:text-white transition-colors duration-200{% endif %}">
+                Dashboard
+            </a>
+            <a href="/configuracion" class="flex-1 py-2 px-4 rounded-lg text-sm font-medium text-center
+                {% if request.path == '/configuracion' %}bg-green-500 text-white shadow-lg shadow-green-500/30{% else %}text-gray-400 hover:text-white transition-colors duration-200{% endif %}">
+                Configuración
+            </a>
+            <a href="/history" class="flex-1 py-2 px-4 rounded-lg text-sm font-medium text-center
+                {% if request.path.startswith('/history') %}bg-green-500 text-white shadow-lg shadow-green-500/30{% else %}text-gray-400 hover:text-white transition-colors duration-200{% endif %}">
+                Historial
+            </a>
+            <a href="/cuenta" class="flex-1 py-2 px-4 rounded-lg text-sm font-medium text-center
+                {% if request.path == '/cuenta' %}bg-green-500 text-white shadow-lg shadow-green-500/30{% else %}text-gray-400 hover:text-white transition-colors duration-200{% endif %}">
+                Cuenta
+            </a>
+        </div>
+        
+        <div class="bg-gray-800 p-8 rounded-xl shadow-lg grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <div class="lg:col-span-2 space-y-6">
+                <h2 class="text-xl font-bold text-white border-b border-gray-700 pb-2">Estrategia de Trading</h2>
+
+                <div>
+                    <label for="strategy" class="block text-sm font-medium text-gray-300 mb-2">Estrategia Principal</label>
+                    <select id="strategy" name="strategy" class="w-full bg-gray-700 border border-gray-600 rounded-md py-3 px-4 text-white focus:ring-green-500 focus:border-green-500">
+                        <option>Análisis de Tendencia (Moving Average)</option>
+                        <option>Soportes y Resistencias (Básico)</option>
+                        <option selected>Estrategia Personalizada (Combinada)</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="asset_pair" class="block text-sm font-medium text-gray-300 mb-2">Par de Activos</label>
+                        <select id="asset_pair" name="asset_pair" class="w-full bg-gray-700 border border-gray-600 rounded-md py-3 px-4 text-white focus:ring-green-500 focus:border-green-500">
+                            <option selected>EUR/USD</option>
+                            <option>GBP/USD</option>
+                            <option>USD/JPY</option>
+                            <option>AUD/USD</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="timeframe" class="block text-sm font-medium text-gray-300 mb-2">Tiempo de Operación (Expiración)</label>
+                        <select id="timeframe" name="timeframe" class="w-full bg-gray-700 border border-gray-600 rounded-md py-3 px-4 text-white focus:ring-green-500 focus:border-green-500">
+                            <option>1 Minuto</option>
+                            <option selected>5 Minutos</option>
+                            <option>15 Minutos</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-gray-700 space-y-4">
+                    <h3 class="text-lg font-semibold text-white">Gestión de Riesgo (Martingala)</h3>
+                    
+                    <div class="flex items-center justify-between bg-gray-700 p-4 rounded-md">
+                        <label for="martingale_enabled" class="text-sm font-medium text-gray-300 flex items-center">
+                            <input type="checkbox" id="martingale_enabled" name="martingale_enabled" checked 
+                                class="h-4 w-4 text-green-600 bg-gray-800 border-gray-600 rounded focus:ring-green-500 mr-3">
+                            Activar Martingala
+                        </label>
+                        <p class="text-sm text-gray-400">Aumenta el monto después de una pérdida.</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="martingale_level" class="block text-sm font-medium text-gray-300 mb-2">Niveles Máx. de Martingala</label>
+                            <input type="number" id="martingale_level" name="martingale_level" value="3" min="1" max="5"
+                                class="w-full bg-gray-700 border border-gray-600 rounded-md py-3 px-4 text-white focus:ring-green-500 focus:border-green-500">
+                        </div>
+                        <div>
+                            <label for="martingale_multiplier" class="block text-sm font-medium text-gray-300 mb-2">Multiplicador</label>
+                            <input type="number" id="martingale_multiplier" name="martingale_multiplier" value="2.3" step="0.1" min="1.1" 
+                                class="w-full bg-gray-700 border border-gray-600 rounded-md py-3 px-4 text-white focus:ring-green-500 focus:border-green-500">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="lg:col-span-1 space-y-6 bg-gray-700 p-6 rounded-lg">
+                <h2 class="text-xl font-bold text-white border-b border-gray-600 pb-2">Gestión de Capital</h2>
+
+                <div class="space-y-4">
+                    <div>
+                        <label for="base_amount" class="block text-sm font-medium text-gray-300 mb-2">Monto Base por Operación ($)</label>
+                        <input type="number" id="base_amount" name="base_amount" value="50.00" step="1.00" 
+                            class="w-full bg-gray-800 border border-gray-600 rounded-md py-3 px-4 text-white font-semibold text-lg focus:ring-green-500 focus:border-green-500">
+                    </div>
+
+                    <div>
+                        <label for="stop_loss" class="block text-sm font-medium text-gray-300 mb-2">Stop Loss Diario ($)</label>
+                        <input type="number" id="stop_loss" name="stop_loss" value="200.00" step="10.00"
+                            class="w-full bg-gray-800 border border-gray-600 rounded-md py-3 px-4 text-white font-semibold text-lg focus:ring-red-500 focus:border-red-500">
+                        <p class="text-xs text-gray-400 mt-1">El bot se detendrá al alcanzar esta pérdida neta.</p>
+                    </div>
+
+                    <div>
+                        <label for="take_profit" class="block text-sm font-medium text-gray-300 mb-2">Take Profit Diario ($)</label>
+                        <input type="number" id="take_profit" name="take_profit" value="150.00" step="10.00"
+                            class="w-full bg-gray-800 border border-gray-600 rounded-md py-3 px-4 text-white font-semibold text-lg focus:ring-green-500 focus:border-green-500">
+                        <p class="text-xs text-gray-400 mt-1">El bot se detendrá al alcanzar esta ganancia neta.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="lg:col-span-3 pt-4 border-t border-gray-700">
+                <button type="submit" class="w-full py-3 bg-green-600 hover:bg-green-700 rounded-lg text-white font-semibold transition-colors duration-200">
+                    GUARDAR CONFIGURACIÓN Y REINICIAR BOT
+                </button>
+            </div>
+            
+        </div>
+        
+    </div>
+</body>
+</html>
